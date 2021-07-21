@@ -13,8 +13,6 @@ class MainActivity : AppCompatActivity() {
 
         val textLogin = findViewById<TextView>(R.id.textViewLogin)
         val textPassword = findViewById<TextView>(R.id.textViewPassword)
-
-        textLogin.text = getSharedPreferences("login", 1).toString()
-        textPassword.text = getSharedPreferences("password", 1).toString()
+        
     }
 }
