@@ -18,26 +18,31 @@ class LoginActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("main", Context.MODE_PRIVATE)
 
         @SuppressLint("CommitPrefEdits")
-        fun validate() {
+        fun validate(): Int {
+            var result = 0
             login.error = if (login.editText?.text.toString() != "admin") {
                 "this Login is invalid"
             } else {
-                sharedPref.edit().putString("login", login.editText?.text.toString())
+                sharedPref.edit().putString("login", login.editText?.text.toString()).apply()
+                result += 1
                 null
             }
             password.error = if (password.editText?.text.toString() != "pass") {
                 "this Password is invalid"
             } else {
-                sharedPref.edit().putString("password", password.editText?.text.toString())
+                sharedPref.edit().putString("password", password.editText?.text.toString()).apply()
+                result += 1
                 null
             }
+            return result
         }
 
         password.editText?.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    validate()
-                    startActivity(Intent(this, MainActivity::class.java))
+                    if (validate() == 2) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
                     true
                 }
                 else -> false
